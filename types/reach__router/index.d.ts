@@ -144,7 +144,7 @@ export interface HistorySource {
     };
 }
 
-export function createHistory(source: HistorySource): History;
+export function createHistory(source: HistorySource | Window): History;
 
 export function createMemorySource(initialPath: string): HistorySource;
 

@@ -4,7 +4,9 @@ import {
     LocationProvider,
     RouteComponentProps,
     Router,
-    Redirect
+    Redirect,
+    createHistory,
+    createMemorySource,
 } from '@reach/router';
 import * as React from 'react';
 import { render } from 'react-dom';
@@ -12,6 +14,13 @@ import { render } from 'react-dom';
 interface DashParams {
     id: string;
 }
+
+// listen to the browser history
+const windowHistory = createHistory(window);
+
+// using a memory source
+const source = createMemorySource("/starting/url");
+const memoryHistory = createHistory(source);
 
 const Home = (props: RouteComponentProps) => <div>Home</div>;
 
@@ -40,9 +49,7 @@ render(
             {context => (
                 <>
                     <div>hostname is {context.location.hostname}</div>
-                    <button onClick={() => context.navigate('/')}>
-                        Go Home
-                    </button>
+                    <button onClick={() => context.navigate('/')}>Go Home</button>
                 </>
             )}
         </Location>
@@ -50,9 +57,23 @@ render(
             {context => (
                 <>
                     <div>hostname is {context.location.hostname}</div>
-                    <button onClick={() => context.navigate('/')}>
-                        Go Home
-                    </button>
+                    <button onClick={() => context.navigate('/')}>Go Home</button>
+                </>
+            )}
+        </LocationProvider>
+        <LocationProvider history={windowHistory}>
+            {context => (
+                <>
+                    <div>hostname is {context.location.hostname}</div>
+                    <button onClick={() => context.navigate('/')}>Go Home</button>
+                </>
+            )}
+        </LocationProvider>
+        <LocationProvider history={memoryHistory}>
+            {context => (
+                <>
+                    <div>pathname is {context.location.pathname}</div>
+                    <button onClick={() => context.navigate('/')}>Go Home</button>
                 </>
             )}
         </LocationProvider>
